@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Sabor & Brasa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">Sabor & Brasa</a>
+            <nav class="main-nav">
+                <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pratos.html">Pratos</a></li>
+                    <li><a href="bebidas.html">Bebidas</a></li>
+                    <li><a href="sobremesas.html">Sobremesas</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-form-section">
+            <div class="container">
+                <h2>Entre em Contato Conosco</h2>
+                <p>Tem alguma dúvida, sugestão, elogio ou reclamação? Preencha o formulário abaixo e entraremos em contato o mais breve possível. Seu feedback é muito importante para nós!</p>
+
+                <form action="submit_form.php" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nome Completo:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Seu Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Assunto:</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Selecione um assunto</option>
+                            <option value="duvida">Dúvida</option>
+                            <option value="suporte">Suporte/Atendimento</option>
+                            <option value="reclamacao">Reclamação</option>
+                            <option value="sugestao">Sugestão</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Sua Mensagem:</label>
+                        <textarea id="message" name="message" rows="8" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn">Enviar Mensagem</button>
+                </form>
+
+                <div class="contact-details-cta">
+                    <h3>Prefere um contato direto?</h3>
+                    <p>Você também pode nos contatar pelos seguintes canais:</p>
+                    <ul>
+                        <li><strong>Telefone:</strong> (12) 98195-6718</li>
+                        <li><strong>Email:</strong> contato@saborebrasa.com.br</li>
+                       <li>
+    <a href="https://wa.me/5512981956718?text=Olá,%20gostaria%20de%20falar%20sobre..." target="_blank" class="btn whatsapp-btn">
+        <i class="fab fa-whatsapp"></i> Fale Conosco pelo WhatsApp
+    </a>
+</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-location-section">
+            <div class="container">
+                <div class="contact-info">
+                    <h2>Fale Conosco e Visite-nos</h2>
+                    <p><strong>Telefone:</strong> (12) 9999-8888</p>
+                    <p><strong>Email:</strong> contato@saborebrasa.com.br</p>
+                    <p><strong>Endereço:</strong> Rua do Sabor, 123, Centro - Caraguatatuba/SP</p>
+                    <p><strong>Horário de Funcionamento:</strong></p>
+                    <ul>
+                        <li>Terça a Domingo: 18:00 - 23:00</li>
+                        <li><strong>Segunda-feira: Fechado para descanso</strong></li>
+                    </ul>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.9329199342714!2d-45.41870532454528!3d-23.639349864205463!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cd55913f1e967b%3A0x6b7d2f9b8c0a2b4b!2sCaraguatatuba%20Shopping!5e0!3m2!1spt-BR!2sbr!4v1716921000000!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-nav">
+                <ul>
+                    <li><a href="pratos.html">Pratos</a></li>
+                    <li><a href="bebidas.html">Bebidas</a></li>
+                    <li><a href="sobremesas.html">Sobremesas</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+            <div class="social-media">
+                <a href="#" aria-label="Visite nosso Facebook">Facebook</a>
+                <a href="#" aria-label="Visite nosso Instagram">Instagram</a>
+            </div>
+            <p>© 2025 Sabor & Brasa. Todos os direitos reservados. Design e Desenvolvimento por [Seu Nome/Empresa].</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

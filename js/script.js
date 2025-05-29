@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // --- Funcionalidade do Menu Hamburguer ---
     const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.main-nav .nav-links'); // Corrigido para .main-nav .nav-links
+    const navLinks = document.querySelector('.main-nav .nav-links'); 
 
     if (navToggle && navLinks) {
         navToggle.addEventListener('click', function() {
@@ -30,18 +30,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Funcionalidade do Banner e Modal de Cookies ---
-    const cookieBanner = document.getElementById('cookie-banner'); // ID do banner principal
+    const cookieBanner = document.getElementById('cookie-banner'); 
     const acceptCookiesBtn = document.getElementById('accept-cookies');
     const declineCookiesBtn = document.getElementById('decline-cookies');
     const customizeCookiesBtn = document.getElementById('customize-cookies');
 
-    const cookieModal = document.getElementById('cookie-modal'); // ID do modal de preferências
+    const cookieModal = document.getElementById('cookie-modal'); 
     const saveCookieSettingsBtn = document.getElementById('save-cookie-settings');
     const closeCookieModalBtn = document.getElementById('close-cookie-modal');
 
+    const essentialCheckbox = document.getElementById('essential-cookies');
     const analyticsCheckbox = document.getElementById('analytics-cookies');
     const marketingCheckbox = document.getElementById('marketing-cookies');
-    const essentialCheckbox = document.getElementById('essential-cookies');
 
 
     // Função para definir um cookie
@@ -76,45 +76,62 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadExternalScripts(preferences) {
         // Exemplo: Carregar script de análise apenas se o usuário consentiu
         if (preferences.analytics) {
-            console.log("Carregando script de Análise (Ex: Google Analytics)");
+            console.log("LGPD: Carregando script de Análise (Ex: Google Analytics)");
             // Insira aqui o código real para carregar Google Analytics, etc.
-            // Exemplo:
+            // Exemplo real de GA4 (Global Site Tag):
             /*
             const scriptGA = document.createElement('script');
-            scriptGA.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y'; // Seu ID do GA
+            scriptGA.src = 'https://www.googletagmanager.com/gtag/js?id=G-YOUR_GA4_MEASUREMENT_ID'; 
+            scriptGA.async = true;
             document.head.appendChild(scriptGA);
-            scriptGA.onload = () => {
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'UA-XXXXX-Y');
-            };
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YOUR_GA4_MEASUREMENT_ID');
             */
         } else {
-            // Se não consentiu, certifique-se de que scripts existentes sejam desativados ou removidos
-            // ou que os cookies relacionados sejam apagados.
-            console.log("Analytics não consentido. Não carregando scripts de Análise.");
-            eraseCookie('_ga'); // Exemplo: apaga cookie do Google Analytics
+            console.log("LGPD: Analytics não consentido. Não carregando scripts de Análise e removendo cookies.");
+            // Apaga cookies de análise existentes se o consentimento for revogado
+            eraseCookie('_ga'); 
             eraseCookie('_gid');
+            // Você também pode precisar remover o script se ele já foi carregado
+            // Ex: remover elemento <script> de gtag.js
         }
 
         // Exemplo: Carregar script de marketing apenas se o usuário consentiu
         if (preferences.marketing) {
-            console.log("Carregando script de Marketing (Ex: Pixel do Facebook)");
+            console.log("LGPD: Carregando script de Marketing (Ex: Pixel do Facebook)");
             // Insira aqui o código real para carregar Pixel do Facebook, etc.
-            // Exemplo:
+            // Exemplo real de Facebook Pixel:
             /*
-            const scriptFB = document.createElement('script');
-            scriptFB.src = 'https://connect.facebook.net/en_US/fbevents.js'; // Seu pixel do FB
-            document.head.appendChild(scriptFB);
-            scriptFB.onload = () => {
-                fbq('init', 'YOUR_PIXEL_ID');
-                fbq('track', 'PageView');
-            };
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', 'YOUR_PIXEL_ID');
+            fbq('track', 'PageView');
             */
         } else {
-            console.log("Marketing não consentido. Não carregando scripts de Marketing.");
-            eraseCookie('_fbp'); // Exemplo: apaga cookie do Facebook Pixel
+            console.log("LGPD: Marketing não consentido. Não carregando scripts de Marketing e removendo cookies.");
+            // Apaga cookies de marketing existentes se o consentimento for revogado
+            eraseCookie('_fbp'); 
+            eraseCookie('_fbc');
+        }
+    }
+
+    // Função para exibir ou ocultar o banner de cookies
+    function toggleCookieBanner(show) {
+        if (cookieBanner) {
+            if (show) {
+                cookieBanner.classList.remove('hidden');
+            } else {
+                cookieBanner.classList.add('hidden');
+            }
         }
     }
 
@@ -122,18 +139,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const consentGiven = getCookie('sabor_e_brasa_cookie_consent');
 
     if (consentGiven) {
-        if (cookieBanner) cookieBanner.classList.add('hidden'); // Esconde o banner
+        toggleCookieBanner(false); // Esconde o banner
         try {
             const preferences = JSON.parse(consentGiven);
             loadExternalScripts(preferences); // Carrega scripts baseados nas preferências salvas
         } catch (e) {
-            console.error("Erro ao parsear preferências de cookie:", e);
-            // Se houver erro, assume consentimento básico e exibe o banner
-            if (cookieBanner) cookieBanner.classList.remove('hidden');
+            console.error("LGPD: Erro ao parsear preferências de cookie:", e);
+            // Se houver erro ou dado corrompido, assume consentimento básico e mostra o banner novamente
+            toggleCookieBanner(true);
             loadExternalScripts({ essential: true, analytics: false, marketing: false });
         }
     } else {
-        if (cookieBanner) cookieBanner.classList.remove('hidden'); // Mostra o banner
+        toggleCookieBanner(true); // Mostra o banner
     }
 
     // Event Listeners para os botões do banner
@@ -142,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const preferences = { essential: true, analytics: true, marketing: true };
             setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
             loadExternalScripts(preferences);
-            if (cookieBanner) cookieBanner.classList.add('hidden');
-            console.log('Todos os cookies aceitos.');
+            toggleCookieBanner(false);
+            console.log('LGPD: Todos os cookies aceitos.');
         });
     }
 
@@ -152,8 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const preferences = { essential: true, analytics: false, marketing: false };
             setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
             loadExternalScripts(preferences); // Garante que apenas os essenciais são carregados
-            if (cookieBanner) cookieBanner.classList.add('hidden');
-            console.log('Apenas cookies essenciais aceitos.');
+            toggleCookieBanner(false);
+            console.log('LGPD: Apenas cookies essenciais aceitos.');
         });
     }
 
@@ -170,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (analyticsCheckbox) analyticsCheckbox.checked = preferences.analytics || false;
                         if (marketingCheckbox) marketingCheckbox.checked = preferences.marketing || false;
                     } catch (e) {
-                        console.error("Erro ao carregar preferências no modal:", e);
+                        console.error("LGPD: Erro ao carregar preferências no modal:", e);
                     }
                 } else {
                     // Se não há consentimento prévio, desmarca tudo exceto essencial por padrão
@@ -179,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (marketingCheckbox) marketingCheckbox.checked = false;
                 }
             }
-            if (cookieBanner) cookieBanner.classList.add('hidden'); // Esconde o banner ao abrir o modal
+            toggleCookieBanner(false); // Esconde o banner ao abrir o modal
         });
     }
 
@@ -194,7 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
             setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
             loadExternalScripts(preferences); // Recarrega scripts com base nas novas preferências
             if (cookieModal) cookieModal.classList.remove('visible');
-            console.log('Preferências de cookies salvas:', preferences);
+            toggleCookieBanner(false); // Garante que o banner esteja escondido após salvar
+            console.log('LGPD: Preferências de cookies salvas:', preferences);
         });
     }
 
@@ -202,9 +220,10 @@ document.addEventListener('DOMContentLoaded', function() {
         closeCookieModalBtn.addEventListener('click', () => {
             if (cookieModal) cookieModal.classList.remove('visible');
             // Se o usuário fechar o modal sem salvar e não houver um consentimento anterior,
-            // pode ser necessário reexibir o banner ou definir um consentimento padrão.
-            // Para manter a simplicidade, o banner não reaparece automaticamente aqui,
-            // mas você pode ajustar essa lógica se preferir.
+            // o banner pode reaparecer na próxima visita. Aqui, assumimos que se o modal for fechado,
+            // o banner já foi escondido pela ação "Personalizar".
+            // Se você quiser que o banner reapareça se nada foi aceito, adicione:
+            // if (!getCookie('sabor_e_brasa_cookie_consent')) toggleCookieBanner(true);
         });
     }
 
@@ -213,6 +232,9 @@ document.addEventListener('DOMContentLoaded', function() {
         cookieModal.addEventListener('click', (event) => {
             if (event.target === cookieModal) { // Verifica se o clique foi no fundo do modal
                 cookieModal.classList.remove('visible');
+                // Se o usuário fechar o modal sem salvar e não houver um consentimento anterior,
+                // pode ser necessário reexibir o banner.
+                // if (!getCookie('sabor_e_brasa_cookie_consent')) toggleCookieBanner(true);
             }
         });
     }

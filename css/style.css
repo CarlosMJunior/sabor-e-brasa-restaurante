@@ -922,12 +922,20 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
-    display: flex;
+    display: none; /* <-- MUDADO PARA 'none' */
     justify-content: center;
     align-items: center;
     z-index: 1001; /* Acima do banner */
 }
+/* --- Estilos para o Modal de Preferências de Cookies --- */
+.cookie-modal {
+    /* ... código que você acabou de ajustar ... */
+    display: none; /* Agora ele começa escondido */
+}
 
+.cookie-modal.visible { /* <-- NOVA REGRA */
+    display: flex; /* Só aparece quando o JavaScript adiciona a classe 'visible' */
+}
 .cookie-modal .modal-content {
     background-color: #fff;
     color: var(--text-color);

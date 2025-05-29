@@ -1,5 +1,3 @@
-Entendido! Preparei o documento completo do projeto e as respostas individuais com o foco na área de Análise e Desenvolvimento de Sistemas, garantindo excelência e precisão técnica para seu professor.
-
 Documentação do Projeto: Website "Sabor & Brasa"
 Data: 29 de Maio de 2025
 Grupo: [Sabor & Brasa]

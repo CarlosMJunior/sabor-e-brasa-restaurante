@@ -31,37 +31,44 @@
                 <h2>Entre em Contato Conosco</h2>
                 <p>Tem alguma dúvida, sugestão, elogio ou reclamação? Preencha o formulário abaixo e entraremos em contato o mais breve possível. Seu feedback é muito importante para nós!</p>
 
-                <form action="submit_form.php" method="POST" class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Nome Completo:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
+              <form action="submit_form.php" method="POST" class="contact-form">
+    <div class="form-group">
+        <label for="name">Nome Completo:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
 
-                    <div class="form-group">
-                        <label for="email">Seu Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
+    <div class="form-group">
+        <label for="email">Seu Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
 
-                    <div class="form-group">
-                        <label for="subject">Assunto:</label>
-                        <select id="subject" name="subject" required>
-                            <option value="">Selecione um assunto</option>
-                            <option value="duvida">Dúvida</option>
-                            <option value="suporte">Suporte/Atendimento</option>
-                            <option value="reclamacao">Reclamação</option>
-                            <option value="sugestao">Sugestão</option>
-                            <option value="outros">Outros</option>
-                        </select>
-                    </div>
+    <div class="form-group">
+        <label for="subject">Assunto:</label>
+        <select id="subject" name="subject" required>
+            <option value="">Selecione um assunto</option>
+            <option value="duvida">Dúvida</option>
+            <option value="suporte">Suporte/Atendimento</option>
+            <option value="reclamacao">Reclamação</option>
+            <option value="sugestao">Sugestão</option>
+            <option value="outros">Outros</option>
+        </select>
+    </div>
 
-                    <div class="form-group">
-                        <label for="message">Sua Mensagem:</label>
-                        <textarea id="message" name="message" rows="8" required></textarea>
-                    </div>
+    <div class="form-group">
+        <label for="message">Sua Mensagem:</label>
+        <textarea id="message" name="message" rows="8" required></textarea>
+    </div>
 
-                    <button type="submit" class="btn primary-btn">Enviar Mensagem</button>
-                </form>
+    <div class="form-group consent-checkbox">
+        <input type="checkbox" id="consent" name="consent" required>
+        <label for="consent">
+            Li e concordo com a <a href="politica-privacidade.html" target="_blank">Política de Privacidade</a>
+            e os <a href="termos-de-uso.html" target="_blank">Termos de Uso</a>.
+        </label>
+    </div>
 
+    <button type="submit" class="btn primary-btn">Enviar Mensagem</button>
+</form>
                 <div class="contact-details-cta">
                     <h3>Prefere um contato direto?</h3>
                     <p>Você também pode nos contatar pelos seguintes canais:</p>
@@ -115,6 +122,38 @@
             <p>© 2025 Sabor & Brasa. Todos os direitos reservados. Design e Desenvolvimento por [Seu Nome/Empresa].</p>
         </div>
     </footer>
+
+    <script src="js/script.js"></script>
+<div id="cookie-consent-banner" class="cookie-banner">
+        <p>Utilizamos cookies para melhorar sua experiência de navegação e analisar o tráfego do site. Ao continuar navegando, você concorda com nossa <a href="politica-privacidade.html#cookies" target="_blank">Política de Cookies</a>.</p>
+        <div class="cookie-buttons">
+            <button id="accept-cookies" class="btn primary-btn">Aceitar Todos</button>
+            <button id="customize-cookies" class="btn secondary-btn">Personalizar</button>
+            <button id="reject-cookies" class="btn tertiary-btn">Rejeitar Não Essenciais</button>
+        </div>
+    </div>
+
+    <div id="cookie-settings-modal" class="cookie-modal" style="display: none;">
+        <h3>Configurações de Cookies</h3>
+        <p>Escolha quais tipos de cookies você aceita:</p>
+        <div class="cookie-category">
+            <input type="checkbox" id="cookie-necessary" checked disabled>
+            <label for="cookie-necessary">Essenciais (sempre ativos)</label>
+            <p>Necessários para o funcionamento básico do site.</p>
+        </div>
+        <div class="cookie-category">
+            <input type="checkbox" id="cookie-analytics">
+            <label for="cookie-analytics">Análise (performance)</label>
+            <p>Nos ajuda a entender como os visitantes interagem com o site.</p>
+        </div>
+        <div class="cookie-category">
+            <input type="checkbox" id="cookie-marketing">
+            <label for="cookie-marketing">Marketing (publicidade)</label>
+            <p>Usados para mostrar anúncios relevantes.</p>
+        </div>
+        <button id="save-cookie-settings" class="btn primary-btn">Salvar Preferências</button>
+        <button id="close-cookie-settings" class="btn secondary-btn">Fechar</button>
+    </div>
 
     <script src="js/script.js"></script>
 </body>

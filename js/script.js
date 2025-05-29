@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Funcionalidade do Menu Hamburguer ---
     const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks = document.querySelector('.main-nav .nav-links'); // Corrigido para .main-nav .nav-links
 
     if (navToggle && navLinks) {
         navToggle.addEventListener('click', function() {
@@ -8,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Testimonial Carousel for Home Page
+    // --- Carrossel de Depoimentos para a Página Inicial ---
     const testimonials = document.querySelectorAll('.testimonial');
     let currentTestimonial = 0;
 
@@ -24,85 +25,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (testimonials.length > 0) {
-        showTestimonial(currentTestimonial); // Show the first testimonial
-        setInterval(nextTestimonial, 7000); // Change every 7 seconds
-    }
-});// Função para verificar e exibir o banner de cookies
-function checkCookieConsent() {
-    const consentGiven = localStorage.getItem('cookie_consent');
-    const cookieBanner = document.getElementById('cookie-consent-banner');
-    const cookieSettingsModal = document.getElementById('cookie-settings-modal');
-
-    if (!consentGiven) {
-        cookieBanner.style.display = 'flex'; // Mostra o banner
-    } else {
-        cookieBanner.style.display = 'none'; // Esconde o banner se já houver consentimento
-        // Você pode adicionar lógica aqui para carregar scripts de analytics/marketing
-        // baseados no consentGiven ou em preferências mais detalhadas
+        showTestimonial(currentTestimonial); // Mostra o primeiro depoimento
+        setInterval(nextTestimonial, 7000); // Troca a cada 7 segundos
     }
 
-    // Botões do banner
-    document.getElementById('accept-cookies').addEventListener('click', () => {
-        localStorage.setItem('cookie_consent', 'accepted_all');
-        cookieBanner.style.display = 'none';
-        // Aqui você pode carregar todos os scripts de cookies (analíticos, marketing)
-    });
+    // --- Funcionalidade do Banner e Modal de Cookies ---
+    const cookieBanner = document.getElementById('cookie-banner'); // ID do banner principal
+    const acceptCookiesBtn = document.getElementById('accept-cookies');
+    const declineCookiesBtn = document.getElementById('decline-cookies');
+    const customizeCookiesBtn = document.getElementById('customize-cookies');
 
-    document.getElementById('reject-cookies').addEventListener('click', () => {
-        localStorage.setItem('cookie_consent', 'rejected_non_essential');
-        cookieBanner.style.display = 'none';
-        // Aqui você deve carregar apenas scripts de cookies essenciais
-    });
+    const cookieModal = document.getElementById('cookie-modal'); // ID do modal de preferências
+    const saveCookieSettingsBtn = document.getElementById('save-cookie-settings');
+    const closeCookieModalBtn = document.getElementById('close-cookie-modal');
 
-    document.getElementById('customize-cookies').addEventListener('click', () => {
-        cookieBanner.style.display = 'none';
-        cookieSettingsModal.style.display = 'block'; // Mostra o modal de personalização
-    });
+    const analyticsCheckbox = document.getElementById('analytics-cookies');
+    const marketingCheckbox = document.getElementById('marketing-cookies');
+    const essentialCheckbox = document.getElementById('essential-cookies');
 
-    // Botões do modal de personalização
-    document.getElementById('save-cookie-settings').addEventListener('click', () => {
-        const analyticsConsent = document.getElementById('cookie-analytics').checked;
-        const marketingConsent = document.getElementById('cookie-marketing').checked;
-
-        const preferences = {
-            necessary: true,
-            analytics: analyticsConsent,
-            marketing: marketingConsent
-        };
-        localStorage.setItem('cookie_consent', JSON.stringify(preferences));
-        cookieSettingsModal.style.display = 'none';
-        // Lógica para carregar scripts baseados nas preferências salvas
-    });
-
-    document.getElementById('close-cookie-settings').addEventListener('click', () => {
-        cookieSettingsModal.style.display = 'none';
-        // Se o usuário fechar sem salvar, o banner pode reaparecer na próxima visita
-        // ou você pode definir um consentimento padrão se ainda não tiver um
-        if (!localStorage.getItem('cookie_consent')) {
-             cookieBanner.style.display = 'flex'; // Volta para o banner se nada foi salvo
-        }
-    });
-}
-
-// Chama a função quando o DOM estiver completamente carregado
-document.addEventListener('DOMContentLoaded', checkCookieConsent);
-
-// Opcional: Adicione um link no rodapé ou política de privacidade para reabrir as configurações de cookies
-// Exemplo: document.getElementById('open-cookie-settings').addEventListener('click', () => {
-//     document.getElementById('cookie-consent-banner').style.display = 'none';
-//     document.getElementById('cookie-settings-modal').style.display = 'block';
-// });
-document.addEventListener('DOMContentLoaded', () => {
-    const cookieBanner = document.getElementById('cookieConsentBanner');
-    const acceptCookiesBtn = document.getElementById('acceptCookies');
-    const declineCookiesBtn = document.getElementById('declineCookies');
-    const customizeCookiesBtn = document.getElementById('customizeCookies');
-    const cookiePreferencesModal = document.getElementById('cookiePreferencesModal');
-    const saveCookiePreferencesBtn = document.getElementById('saveCookiePreferences');
-    const closeCookieModalBtn = document.getElementById('closeCookieModal');
-
-    const analyticsCheckbox = document.getElementById('analyticsCookies');
-    const marketingCheckbox = document.getElementById('marketingCookies');
 
     // Função para definir um cookie
     function setCookie(name, value, days) {
@@ -112,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             expires = "; expires=" + date.toUTCString();
         }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
     }
 
     // Função para ler um cookie
@@ -129,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para apagar um cookie (tornando-o expirado)
     function eraseCookie(name) {
-        document.cookie = name + '=; Max-Age=-99999999;';
+        document.cookie = name + '=; Max-Age=-99999999; path=/';
     }
 
     // Função para carregar scripts externos (simulando scripts de análise/marketing)
@@ -137,97 +77,143 @@ document.addEventListener('DOMContentLoaded', () => {
         // Exemplo: Carregar script de análise apenas se o usuário consentiu
         if (preferences.analytics) {
             console.log("Carregando script de Análise (Ex: Google Analytics)");
-            // Exemplo real:
-            // const script = document.createElement('script');
-            // script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y'; // Seu ID do GA
-            // document.head.appendChild(script);
-            // script.onload = () => {
-            //     window.dataLayer = window.dataLayer || [];
-            //     function gtag(){dataLayer.push(arguments);}
-            //     gtag('js', new Date());
-            //     gtag('config', 'UA-XXXXX-Y');
-            // };
+            // Insira aqui o código real para carregar Google Analytics, etc.
+            // Exemplo:
+            /*
+            const scriptGA = document.createElement('script');
+            scriptGA.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y'; // Seu ID do GA
+            document.head.appendChild(scriptGA);
+            scriptGA.onload = () => {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'UA-XXXXX-Y');
+            };
+            */
+        } else {
+            // Se não consentiu, certifique-se de que scripts existentes sejam desativados ou removidos
+            // ou que os cookies relacionados sejam apagados.
+            console.log("Analytics não consentido. Não carregando scripts de Análise.");
+            eraseCookie('_ga'); // Exemplo: apaga cookie do Google Analytics
+            eraseCookie('_gid');
         }
+
         // Exemplo: Carregar script de marketing apenas se o usuário consentiu
         if (preferences.marketing) {
             console.log("Carregando script de Marketing (Ex: Pixel do Facebook)");
-            // Exemplo real:
-            // const script = document.createElement('script');
-            // script.src = 'https://connect.facebook.net/en_US/fbevents.js'; // Seu pixel do FB
-            // document.head.appendChild(script);
-            // script.onload = () => {
-            //     fbq('init', 'YOUR_PIXEL_ID');
-            //     fbq('track', 'PageView');
-            // };
+            // Insira aqui o código real para carregar Pixel do Facebook, etc.
+            // Exemplo:
+            /*
+            const scriptFB = document.createElement('script');
+            scriptFB.src = 'https://connect.facebook.net/en_US/fbevents.js'; // Seu pixel do FB
+            document.head.appendChild(scriptFB);
+            scriptFB.onload = () => {
+                fbq('init', 'YOUR_PIXEL_ID');
+                fbq('track', 'PageView');
+            };
+            */
+        } else {
+            console.log("Marketing não consentido. Não carregando scripts de Marketing.");
+            eraseCookie('_fbp'); // Exemplo: apaga cookie do Facebook Pixel
         }
     }
 
-    // Verifica se o usuário já consentiu
+    // Verifica se o usuário já consentiu ao carregar a página
     const consentGiven = getCookie('sabor_e_brasa_cookie_consent');
 
     if (consentGiven) {
-        cookieBanner.style.display = 'none'; // Esconde o banner
+        if (cookieBanner) cookieBanner.classList.add('hidden'); // Esconde o banner
         try {
             const preferences = JSON.parse(consentGiven);
             loadExternalScripts(preferences); // Carrega scripts baseados nas preferências salvas
         } catch (e) {
             console.error("Erro ao parsear preferências de cookie:", e);
-            // Se houver erro, assume consentimento básico ou mostra o banner novamente
+            // Se houver erro, assume consentimento básico e exibe o banner
+            if (cookieBanner) cookieBanner.classList.remove('hidden');
             loadExternalScripts({ essential: true, analytics: false, marketing: false });
         }
     } else {
-        cookieBanner.style.display = 'flex'; // Mostra o banner
+        if (cookieBanner) cookieBanner.classList.remove('hidden'); // Mostra o banner
     }
 
     // Event Listeners para os botões do banner
-    acceptCookiesBtn.addEventListener('click', () => {
-        const preferences = { essential: true, analytics: true, marketing: true };
-        setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
-        loadExternalScripts(preferences);
-        cookieBanner.style.display = 'none';
-        console.log('Todos os cookies aceitos.');
-    });
+    if (acceptCookiesBtn) {
+        acceptCookiesBtn.addEventListener('click', () => {
+            const preferences = { essential: true, analytics: true, marketing: true };
+            setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
+            loadExternalScripts(preferences);
+            if (cookieBanner) cookieBanner.classList.add('hidden');
+            console.log('Todos os cookies aceitos.');
+        });
+    }
 
-    declineCookiesBtn.addEventListener('click', () => {
-        const preferences = { essential: true, analytics: false, marketing: false };
-        setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
-        // Apaga cookies de análise/marketing existentes (se houver, para ser mais completo)
-        // Ex: eraseCookie('_ga'); // Exemplo de cookie do Google Analytics
-        loadExternalScripts(preferences); // Garante que apenas os essenciais são carregados
-        cookieBanner.style.display = 'none';
-        console.log('Apenas cookies essenciais aceitos.');
-    });
+    if (declineCookiesBtn) {
+        declineCookiesBtn.addEventListener('click', () => {
+            const preferences = { essential: true, analytics: false, marketing: false };
+            setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
+            loadExternalScripts(preferences); // Garante que apenas os essenciais são carregados
+            if (cookieBanner) cookieBanner.classList.add('hidden');
+            console.log('Apenas cookies essenciais aceitos.');
+        });
+    }
 
-    customizeCookiesBtn.addEventListener('click', () => {
-        cookiePreferencesModal.style.display = 'flex';
-        // Carrega as preferências atuais no modal, se existirem
-        const currentConsent = getCookie('sabor_e_brasa_cookie_consent');
-        if (currentConsent) {
-            try {
-                const preferences = JSON.parse(currentConsent);
-                analyticsCheckbox.checked = preferences.analytics || false;
-                marketingCheckbox.checked = preferences.marketing || false;
-            } catch (e) {
-                console.error("Erro ao carregar preferências no modal:", e);
+    if (customizeCookiesBtn) {
+        customizeCookiesBtn.addEventListener('click', () => {
+            if (cookieModal) {
+                cookieModal.classList.add('visible');
+                // Carrega as preferências atuais no modal, se existirem
+                const currentConsent = getCookie('sabor_e_brasa_cookie_consent');
+                if (currentConsent) {
+                    try {
+                        const preferences = JSON.parse(currentConsent);
+                        if (essentialCheckbox) essentialCheckbox.checked = true; // Essencial é sempre marcado
+                        if (analyticsCheckbox) analyticsCheckbox.checked = preferences.analytics || false;
+                        if (marketingCheckbox) marketingCheckbox.checked = preferences.marketing || false;
+                    } catch (e) {
+                        console.error("Erro ao carregar preferências no modal:", e);
+                    }
+                } else {
+                    // Se não há consentimento prévio, desmarca tudo exceto essencial por padrão
+                    if (essentialCheckbox) essentialCheckbox.checked = true;
+                    if (analyticsCheckbox) analyticsCheckbox.checked = false;
+                    if (marketingCheckbox) marketingCheckbox.checked = false;
+                }
             }
-        }
-    });
+            if (cookieBanner) cookieBanner.classList.add('hidden'); // Esconde o banner ao abrir o modal
+        });
+    }
 
     // Event Listeners para o modal de preferências
-    saveCookiePreferencesBtn.addEventListener('click', () => {
-        const preferences = {
-            essential: true, // Essenciais são sempre true
-            analytics: analyticsCheckbox.checked,
-            marketing: marketingCheckbox.checked
-        };
-        setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
-        loadExternalScripts(preferences); // Recarrega scripts com base nas novas preferências
-        cookiePreferencesModal.style.display = 'none';
-        cookieBanner.style.display = 'none';
-        console.log('Preferências de cookies salvas:', preferences);
-    });
+    if (saveCookieSettingsBtn) {
+        saveCookieSettingsBtn.addEventListener('click', () => {
+            const preferences = {
+                essential: true, // Essenciais são sempre true
+                analytics: analyticsCheckbox ? analyticsCheckbox.checked : false,
+                marketing: marketingCheckbox ? marketingCheckbox.checked : false
+            };
+            setCookie('sabor_e_brasa_cookie_consent', JSON.stringify(preferences), 365);
+            loadExternalScripts(preferences); // Recarrega scripts com base nas novas preferências
+            if (cookieModal) cookieModal.classList.remove('visible');
+            console.log('Preferências de cookies salvas:', preferences);
+        });
+    }
 
-    closeCookieModalBtn.addEventListener('click', () => {
-        cookiePreferencesModal.style.display = 'none';
-    });
+    if (closeCookieModalBtn) {
+        closeCookieModalBtn.addEventListener('click', () => {
+            if (cookieModal) cookieModal.classList.remove('visible');
+            // Se o usuário fechar o modal sem salvar e não houver um consentimento anterior,
+            // pode ser necessário reexibir o banner ou definir um consentimento padrão.
+            // Para manter a simplicidade, o banner não reaparece automaticamente aqui,
+            // mas você pode ajustar essa lógica se preferir.
+        });
+    }
+
+    // Fechar o modal de cookies clicando fora dele
+    if (cookieModal) {
+        cookieModal.addEventListener('click', (event) => {
+            if (event.target === cookieModal) { // Verifica se o clique foi no fundo do modal
+                cookieModal.classList.remove('visible');
+            }
+        });
+    }
 });
